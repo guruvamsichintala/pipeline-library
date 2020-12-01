@@ -10,7 +10,7 @@ def call(Map params = [:]) {
     // Faster build and reduces IO needs
     properties([
         durabilityHint('PERFORMANCE_OPTIMIZED'),
-        buildDiscarder(logRotator(numToKeepStr: '5')),
+        //buildDiscarder(logRotator(numToKeepStr: '5')),
     ])
 
     def repo = params.containsKey('repo') ? params.repo : null
