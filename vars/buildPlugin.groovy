@@ -1,4 +1,6 @@
 #!/usr/bin/env groovy 
+import hudson.Functions
+
 //TODO(oleg_nenashev): This thing is not simple anymore. I suggest reworking it to a config YAML
 // which would be compatible with essentials.yml (INFRA-1673)
 /**
@@ -109,7 +111,12 @@ def call(Map params = [:]) {
                                 try {
                                     print 'infra.runMaven with jdk: ' + jdk + '; addToolEnv = ' + addToolEnv
                                     infra.runMaven(mavenOptions, jdk, null, null, addToolEnv)
-                                } finally {
+                                }
+                                catch (Exception e) {
+                                    echo "Exception occurred in mvn command " + e.toString()
+                                    println Functions.printThrowable(e)
+                                }
+                                finally {
                                     if (!skipTests) {
                                         junit('**/target/surefire-reports/**/*.xml,**/target/failsafe-reports/**/*.xml,**/target/invoker-reports/**/*.xml')
                                         if (first) {
