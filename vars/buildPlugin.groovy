@@ -107,6 +107,7 @@ def call(Map params = [:]) {
                                 }
                                 mavenOptions += "clean install"
                                 try {
+                                    print 'infra.runMaven with jdk: ' + jdk + '; addToolEnv = ' + addToolEnv
                                     infra.runMaven(mavenOptions, jdk, null, null, addToolEnv)
                                 } finally {
                                     if (!skipTests) {
