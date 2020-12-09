@@ -93,6 +93,7 @@ Object runMaven(List<String> options, String jdk = 8, List<String> extraEnv = nu
     mvnOptions.addAll(options)
     mvnOptions.unique()
     String command = "mvn ${mvnOptions.join(' ')}"
+    print "runWithMaven: command = " + command
     runWithMaven(command, jdk, extraEnv, addToolEnv)
 }
 
@@ -116,6 +117,12 @@ Object runWithMaven(String command, String jdk = 8, List<String> extraEnv = null
         env.addAll(extraEnv)
     }
 
+    if (isUnix()) { // HACK! remove maven settings from u18 images
+        sh "rm -rf /opt/apache-maven-3.6.1/conf/settings.xml"
+    }
+
+    
+    print "runWithJava: command = " + command + "; env = " + env + "; addToolEnv = " + addToolEnv
     runWithJava(command, jdk, env, addToolEnv)
 }
 
