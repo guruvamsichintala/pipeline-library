@@ -53,6 +53,7 @@ def call(Map params = [:]) {
                         boolean isMaven
                         // Archive artifacts once with pom declared baseline
                         boolean doArchiveArtifacts = !jenkinsVersion && !archivedArtifacts
+                        print "doArchiveArtifacts = " + doArchiveArtifacts
                         if (doArchiveArtifacts) {
                             archivedArtifacts = true
                         }
@@ -247,6 +248,9 @@ def call(Map params = [:]) {
                         }
                     }
                 } finally {
+                    // JJCF: archive always plugin 
+                    archiveArtifacts artifacts: '**/build/libs/*.hpi,**/build/libs/*.jpi', fingerprint: true
+
                     if (hasDockerLabel()) {
                         if(isUnix()) {
                             sh 'docker system prune --force --all || echo "Failed to cleanup docker images"'
