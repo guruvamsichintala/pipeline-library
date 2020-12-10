@@ -248,8 +248,10 @@ def call(Map params = [:]) {
                         }
                     }
                 } finally {
-                    // JJCF: archive always plugin 
-                    archiveArtifacts artifacts: '**/build/libs/*.hpi,**/build/libs/*.jpi', fingerprint: true
+                    sh "pwd"
+                    // JJCF: archive always plugin
+                    print "archiveArtifacts always (JJCF)"
+                    archiveArtifacts artifacts: '**/target/*.hpi,**/target/*.jpi', fingerprint: true, allowEmpty: true
 
                     if (hasDockerLabel()) {
                         if(isUnix()) {
